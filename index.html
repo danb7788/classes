@@ -1,0 +1,72 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-5">Break Even Group Classes</h1>
+        <div class="form-row">
+            <div class="col">
+                <label>Number of Rooms</label>
+                <input class="form-control" id="rooms" type="number" step="1" value="3">
+            </div>
+            <div class="col">
+                <label>Rent + Maint. per Room</label>
+                <input class="form-control" id="rent" type="rent" step="1" value="3500">
+            </div>
+            <div class="col">
+                <label>Weekly Classes/Room</label>
+                <input class="form-control" id="weekly" type="number" step="1" value="15">
+            </div>
+            <div class="col">
+                <label>Avg. # of Stdts/Course</label>
+                <input class="form-control" id="average" type="number" step="1" value="5">
+            </div>
+            <div class="col">
+                <label>Avg. Course Fees</label>
+                <input class="form-control" id="fee" type="number" step="1" value="250">
+            </div>
+        </div>
+        <div class="mt-5" id="results"></div>
+    </div>
+</body>
+
+<script>
+    const roomsEl = document.querySelector('#rooms');
+    const rentEl = document.querySelector('#rent');
+    const weeklyEl = document.querySelector('#weekly');
+    const averageEl = document.querySelector('#average');
+    const feeEl = document.querySelector('#fee');
+
+    const resultsEl = document.querySelector('#results');
+
+    roomsEl.addEventListener('change', () => {calculateData()});
+    rentEl.addEventListener('change', () => {calculateData()});
+    weeklyEl.addEventListener('change', () => {calculateData()});
+    averageEl.addEventListener('change', () => {calculateData()});
+    feeEl.addEventListener('change', () => {calculateData()});
+
+    document.addEventListener('DOMContentLoaded', () => {calculateData()})
+
+    function calculateData() {
+        console.log('calculating');
+        resultsEl.innerHTML = '';
+
+        let grossPerClassPerStudent = feeEl.value / 10;
+        let grossPerRoom = weeklyEl.value * grossPerClassPerStudent * averageEl.value;
+        let totalMonthlyGross = grossPerRoom * 4 * roomsEl.value;
+
+        let teachersMonthlyPay = roomsEl.value * weeklyEl.value * 4 * 37.50;
+
+        let roomsRentMain = roomsEl.value * rentEl.value;
+
+        resultsEl.innerHTML = 'Monthly gross: ' + totalMonthlyGross + '<br>';
+        resultsEl.innerHTML += 'Teachers pay: ' + teachersMonthlyPay + '<br>';
+        resultsEl.innerHTML += 'Rooms rent & maintenance: ' + roomsRentMain + '<br>';
+        resultsEl.innerHTML += 'Monthly net profit: ' + (totalMonthlyGross - teachersMonthlyPay - roomsRentMain) + '<br>';
+    }
+</script>
+</html>
